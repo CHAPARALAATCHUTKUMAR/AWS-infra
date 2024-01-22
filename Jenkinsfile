@@ -11,7 +11,7 @@ pipeline {
                 script {
 
                     env.JENKINS_LAUNCH_DIAGNOSTICS=true
-                    sh 'terraform version'
+                    sh 'ls -lrt'
                 }
             }
             }
