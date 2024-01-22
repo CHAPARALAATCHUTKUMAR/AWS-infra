@@ -1,9 +1,5 @@
 pipeline {
     agent none
-    environment {
-        PATH = "/usr/local/bin:$PATH"
-    }
-
     stages {
         stage('Terraform Stage') {
             agent {
@@ -16,10 +12,10 @@ pipeline {
                 container('terraform'){
 
                 script {
-                    dir('/home/jenkins/agent'){
+
                     env.JENKINS_LAUNCH_DIAGNOSTICS=true
                     sh 'terraform version'
-                }}
+                }
             }
             }
         }
