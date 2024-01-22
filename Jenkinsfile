@@ -5,9 +5,6 @@ pipeline {
             agent {
                 label 'terraform-agent'
             }
-            environment {
-                 PATH = "/bin/sh:$PATH"
-            }
             steps {
                 container('terraform'){
 
