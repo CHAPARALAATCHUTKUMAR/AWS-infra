@@ -8,11 +8,11 @@ pipeline {
             }
             steps {
                 container('terraform'){
-                dir('/home/jenkins') {
+
                 script {
                     sh 'terraform version'
                 }
-            }}
+            }
             }
         }
     }
