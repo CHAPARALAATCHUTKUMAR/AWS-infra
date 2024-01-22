@@ -7,7 +7,7 @@ pipeline {
                 label 'terraform-agent'
             }
             steps {
-                container('terrafrom'){
+                container('terraform'){
 
                 script {
                     sh 'terraform version'
