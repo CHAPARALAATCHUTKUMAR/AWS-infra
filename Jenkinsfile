@@ -8,7 +8,7 @@ pipeline {
             }
             steps {
                 script {
-                    dir('/home/jenkins/agent') {
+                    dir('/bin/terraform') {
                     // Terraform commands go here
                     sh 'terraform'
                     // sh 'terraform apply -auto-approve'
