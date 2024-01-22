@@ -1,5 +1,8 @@
 pipeline {
     agent none
+    environment {
+        PATH = "/usr/local/bin:$PATH"
+    }
 
     stages {
         stage('Terraform Stage') {
