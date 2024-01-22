@@ -1,10 +1,18 @@
 pipeline {
-    agent any
+    agent none
 
     stages {
-        stage('Example Stage') {
+        stage('Terraform Stage') {
+            agent {
+                label 'terraform-agent'
+            }
             steps {
-                echo 'Hello, this is a Jenkins pipeline!'
+                script {
+                    // Terraform commands go here
+                    sh 'terraform'
+                    // sh 'terraform apply -auto-approve'
+                    // Add more Terraform commands as needed
+                }
             }
         }
     }
