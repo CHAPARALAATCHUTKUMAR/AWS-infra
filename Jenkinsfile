@@ -9,8 +9,6 @@ pipeline {
                 container('terraform'){
 
                 script {
-
-                    env.JENKINS_LAUNCH_DIAGNOSTICS=true
                     sh 'ls -lrt'
                 }
             }
