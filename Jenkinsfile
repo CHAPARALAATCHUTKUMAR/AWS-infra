@@ -8,12 +8,11 @@ pipeline {
             }
             steps {
                 script {
-                    dir('/bin/terraform') {
-                    // Terraform commands go here
-                    sh 'terraform'
-                    // sh 'terraform apply -auto-approve'
-                    // Add more Terraform commands as needed
-                    }
+                     def terraformDir = "${WORKSPACE}/terraform"
+                    sh "mkdir -p ${terraformDir}"
+
+                    // Run Terraform commands inside the created directory
+                    sh "cd ${terraformDir} && /bin/terraform "
                 }
             }
         }
