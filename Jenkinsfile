@@ -9,10 +9,11 @@ pipeline {
                 container('terraform'){
 
                 script {
+                    dir('/bin/sh'){
                     echo 'Before sh step : $(pwd)'
-                    sh 'ls -lrt'
+                    sh 'terraform version'
                     echo 'After sh step'
-                }
+                }}
             }
             }
         }
