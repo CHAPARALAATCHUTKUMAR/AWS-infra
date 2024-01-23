@@ -1,5 +1,8 @@
 pipeline {
     agent none
+    environment {
+        PATH="/run/current-system/sw/bin"
+    }
     stages {
         stage('Terraform Stage') {
             agent {
@@ -7,14 +10,13 @@ pipeline {
             }
             steps {
                     container('terraform'){
-                        withEnv(['PATH=/bin']) {
 
                 script {
 
                     echo 'Before sh step :'
                     sh 'terraform version'
                     echo 'After sh step'
-                }}
+                }
             }
             }
         }
