@@ -6,7 +6,10 @@ pipeline {
                 label 'terraform-agent'
             }
             steps {
-                container('terraform'){
+                withEnv(['PATH=/bin']){
+                    sh 'ls -lrt /bin'  
+                }
+                    container('terraform'){
 
                 script {
 
