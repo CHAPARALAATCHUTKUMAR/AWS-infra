@@ -9,6 +9,9 @@ pipeline {
                 container('terraform'){
 
                 script {
+                    echo 'Before sh step'
+
+                    echo 'After sh step'
                     sh 'ls -lrt'
                 }
             }
