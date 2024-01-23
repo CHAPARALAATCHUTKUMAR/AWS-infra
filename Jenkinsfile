@@ -10,9 +10,8 @@ pipeline {
 
                 script {
                     echo 'Before sh step'
-
-                    echo 'After sh step'
                     sh 'ls -lrt'
+                    echo 'After sh step'
                 }
             }
             }
