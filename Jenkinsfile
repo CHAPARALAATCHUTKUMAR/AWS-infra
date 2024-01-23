@@ -6,16 +6,18 @@ pipeline {
                 label 'terraform-agent'
             }
             steps {
-                // Set the PATH environment variable to /bin
-                withEnv(['PATH=/bin']) {
-                    container('terraform') {
-                        script {
-                            echo 'Before sh step :'
-                            sh 'terraform version'
-                            echo 'After sh step'
-                        }
-                    }
+                withEnv(['PATH=/bin']){
+                    sh 'terrafrom version'  
                 }
+                    container('terraform'){
+
+                script {
+
+                    echo 'Before sh step :'
+                    sh 'terraform version'
+                    echo 'After sh step'
+                }
+            }
             }
         }
     }
