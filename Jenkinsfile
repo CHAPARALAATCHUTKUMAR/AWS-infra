@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label 'aws_ec2' 
+    }
 
     environment {
         AWS_CREDENTIALS = credentials('AWS_CREDENTIALS') 
