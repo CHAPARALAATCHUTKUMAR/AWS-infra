@@ -1,19 +1,17 @@
 pipeline {
-    agent none
+    agent any
+
     environment {
-        PATH="/run/current-system/sw/bin"
+        AWS_CREDENTIALS = credentials('AWS_CREDENTIALS') 
     }
+
     stages {
-        stage('Terraform Stage') {
-            agent {
-                label 'terraform-agent'
-            }
+        stage('TEST') {
             steps {
-                container('terraform') {
-                    script {
-                        echo 'Before sh step :'
-                        sh 'terraform version'
-                        echo 'After sh step'
+                script {
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'AWS_CREDENTIALS', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                        // Your AWS CLI or SDK commands go here
+                        sh 'aws ec2 describe-instances --query "Reservations[*].Instances[*].[InstanceId,InstanceType,State.Name]" --output table'
                     }
                 }
             }
