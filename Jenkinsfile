@@ -46,7 +46,7 @@ pipeline {
                         }
 
                         // Run Terraform command
-                        sh "terraform ${params.TERRAFORM_ACTION}"
+                        sh "terraform ${params.TERRAFORM_ACTION} -auto-approve"
                     }
                 }
             }
