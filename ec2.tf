@@ -1,5 +1,5 @@
 resource "aws_instance" "my_instance" {
-  ami             = "ami-0c55b159cbfafe1f0"  # Amazon Linux 2 AMI, replace with your desired AMI
+  ami             = "ami-0e731c8a588258d0d"  # Amazon Linux 2 AMI, replace with your desired AMI
   instance_type   = "t2.micro"
   key_name        = "EC2_Access"  # Replace with your EC2 key pair name
 
