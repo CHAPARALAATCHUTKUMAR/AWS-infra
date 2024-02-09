@@ -6,8 +6,7 @@ pipeline {
     }
     
     environment {
-        AWS_ACCESS_KEY_ID     = """${credentials('AWS_CRED').AWS_ACCESS_KEY_ID}"""
-        AWS_SECRET_ACCESS_KEY = """${credentials('AWS_CRED').AWS_SECRET_ACCESS_KEY}"""
+        AWS_CREDENTIALS = credentials('AWS_CRED')
     }
 
     stages {
@@ -21,17 +20,17 @@ pipeline {
         stage('Terraform Action') {
             steps {
                 script {
-                    // Define Terraform commands based on user input
-                    if (params.TERRAFORM_ACTION == 'init') {
-                        sh 'terraform init'
-                    } else if (params.TERRAFORM_ACTION == 'plan') {
-                        sh 'terraform plan'
-                    } else if (params.TERRAFORM_ACTION == 'apply') {
-                        sh 'terraform apply -auto-approve'
-                    } else if (params.TERRAFORM_ACTION == 'destroy') {
-                        sh 'terraform destroy -auto-approve'
-                    } else {
-                        error "Invalid Terraform action selected."
+                    // Set AWS credentials as environment variables
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'AWS_CRED', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                        // Set AWS CLI profile based on Terraform action
+                        if (params.TERRAFORM_ACTION == 'init' || params.TERRAFORM_ACTION == 'plan') {
+                            sh 'export AWS_PROFILE=terraform-init-profile'
+                        } else if (params.TERRAFORM_ACTION == 'apply' || params.TERRAFORM_ACTION == 'destroy') {
+                            sh 'export AWS_PROFILE=terraform-apply-destroy-profile'
+                        }
+
+                        // Run Terraform command
+                        sh "terraform ${params.TERRAFORM_ACTION}"
                     }
                 }
             }
