@@ -10,12 +10,12 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout the Git repository
-                git 'https://github.com/CHAPARALAATCHUTKUMAR/AWS-infra.git'
-            }
-        }
+        // stage('Checkout') {
+        //     steps {
+        //         // Checkout the Git repository
+        //         git 'https://github.com/CHAPARALAATCHUTKUMAR/AWS-infra.git'
+        //     }
+        // }
 
         stage('Terraform Action') {
             steps {
