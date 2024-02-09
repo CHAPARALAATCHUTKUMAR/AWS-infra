@@ -1,19 +1,37 @@
 pipeline {
-    agent {
-        label 'aws_ec2' 
-    }
+    agent { label 'Jenkins-Slave' }
 
+    parameters {
+        choice(name: 'TERRAFORM_ACTION', choices: ['init', 'plan', 'apply', 'destroy'], description: 'Select Terraform action to perform')
+    }
+    
     environment {
-        AWS_CREDENTIALS = credentials('AWS_CREDENTIALS') 
+        AWS_ACCESS_KEY_ID     = credentials('AWS_CRED').AWS_ACCESS_KEY_ID
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_CRED').AWS_SECRET_ACCESS_KEY
     }
 
     stages {
-        stage('TEST') {
+        stage('Checkout') {
+            steps {
+                // Checkout the Git repository
+                git 'https://github.com/CHAPARALAATCHUTKUMAR/AWS-infra.git'
+            }
+        }
+
+        stage('Terraform Action') {
             steps {
                 script {
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'AWS_CREDENTIALS', accessKeyVariable: 'AWS_ACCESS_KEY_ID', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
-                        // Your AWS CLI or SDK commands go here
-                        sh 'aws ec2 describe-instances --query "Reservations[*].Instances[*].[InstanceId,InstanceType,State.Name]" --output table'
+                    // Define Terraform commands based on user input
+                    if (params.TERRAFORM_ACTION == 'init') {
+                        sh 'terraform init'
+                    } else if (params.TERRAFORM_ACTION == 'plan') {
+                        sh 'terraform plan'
+                    } else if (params.TERRAFORM_ACTION == 'apply') {
+                        sh 'terraform apply -auto-approve'
+                    } else if (params.TERRAFORM_ACTION == 'destroy') {
+                        sh 'terraform destroy -auto-approve'
+                    } else {
+                        error "Invalid Terraform action selected."
                     }
                 }
             }
