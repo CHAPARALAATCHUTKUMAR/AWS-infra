@@ -9,7 +9,7 @@ pipeline {
         AWS_CREDENTIALS = credentials('AWS_CRED')
     }
 
- stages {
+    stages {
         stage('Terraform Initialization') {
             steps {
                 script {
@@ -45,8 +45,8 @@ pipeline {
                             sh 'export AWS_PROFILE=terraform-apply-destroy-profile'
                         }
 
-                        // Run Terraform command
-                        sh "terraform ${params.TERRAFORM_ACTION} -auto-approve"
+                        // Run Terraform command with auto-approve for apply and destroy
+                        sh "terraform ${params.TERRAFORM_ACTION == 'apply' || params.TERRAFORM_ACTION == 'destroy' ? 'apply --auto-approve' : params.TERRAFORM_ACTION}"
                     }
                 }
             }
